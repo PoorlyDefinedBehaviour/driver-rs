@@ -62,7 +62,7 @@ mod tests {
 
     #[test]
     fn debug() {
-        // dbg!('a');
+        dbg!('a');
         dbg!(driver_init());
         dbg!(test_communicate());
     }
