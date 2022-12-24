@@ -42,10 +42,10 @@ namespace NW
 		bool driver::read_process_memory(uint32_t target_proc_id, uintptr_t read_address, uintptr_t buffer_address, size_t size);
 		bool driver::write_process_memory(uint32_t target_proc_id, uintptr_t write_address, uintptr_t buffer_address, size_t size);
 		bool driver::virtual_query(uint32_t proc_id, uintptr_t address, uintptr_t buffer_address, size_t size);
-		bool driver::get_mapped_file_name(uint32_t proc_id, uintptr_t address, const wchar_t *buffer, size_t size);
+		bool driver::get_mapped_file_name(uint32_t proc_id, uintptr_t address, uintptr_t buffer_address, size_t size);
 		bool driver::test_communicate();
 		bool driver::read_kernel_memory(uintptr_t read_address, uintptr_t buffer_address, size_t size);
-		bool driver::get_kernel_driver(const wchar_t *driver_name, uintptr_t *address, size_t *size);
+		bool driver::get_kernel_driver(uintptr_t buffer_address, uintptr_t *address, size_t *size);
 
 		// Reads a value from the process.
 		template <typename T>

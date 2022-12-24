@@ -50,6 +50,7 @@ namespace NW
 
 	bool driver::read_process_memory(uint32_t target_proc_id, uintptr_t read_address, uintptr_t buffer_address, size_t size)
 	{
+		std::cout << "size=" << size << std::endl;
 		if (!read_address || !buffer_address || !size)
 			return false;
 
@@ -64,9 +65,24 @@ namespace NW
 		request.buffer = buffer_address;
 		request.size = static_cast<ULONG>(size);
 
+		std::cout << "--- before" << std::endl;
+		std::cout << "request.source_proc_id=" << request.source_proc_id << std::endl;
+		std::cout << "request.target_proc_id=" << request.target_proc_id << std::endl;
+		std::cout << std::hex << "request.target_address=" << request.target_address << std::endl;
+		std::cout << std::hex << "request.buffer=" << request.buffer << std::endl;
+		std::cout << "request.size=" << request.size << std::endl;
+
 		call_hook(&request);
 
 		read_bytes = reinterpret_cast<size_t>(request.response);
+
+		std::cout << "--- after" << std::endl;
+		std::cout << "request.source_proc_id=" << request.source_proc_id << std::endl;
+		std::cout << "request.target_proc_id=" << request.target_proc_id << std::endl;
+		std::cout << std::hex << "request.target_address=" << request.target_address << std::endl;
+		std::cout << std::hex << "request.buffer=" << request.buffer << std::endl;
+		std::cout << "request.size=" << request.size << std::endl;
+		std::cout << "read_bytes=" << read_bytes << std::endl;
 
 		return static_cast<bool>(request.succeed);
 	}
@@ -117,9 +133,9 @@ namespace NW
 		return static_cast<bool>(request.succeed);
 	}
 
-	bool driver::get_mapped_file_name(uint32_t proc_id, uintptr_t address, const wchar_t *buffer, size_t size)
+	bool driver::get_mapped_file_name(uint32_t proc_id, uintptr_t address, uintptr_t buffer_address, size_t size)
 	{
-		if (!proc_id || !address || !buffer || !size)
+		if (!proc_id || !address || !buffer_address || !size)
 			return false;
 
 		size_t read_bytes = 0;
@@ -130,7 +146,7 @@ namespace NW
 		request.source_proc_id = m_current_pid;
 		request.target_proc_id = proc_id;
 		request.target_address = address;
-		request.buffer = (UINT_PTR)buffer;
+		request.buffer = (UINT_PTR)buffer_address;
 		request.size = static_cast<ULONG>(size);
 
 		call_hook(&request);
@@ -170,16 +186,16 @@ namespace NW
 		return static_cast<bool>(request.succeed);
 	}
 
-	bool driver::get_kernel_driver(const wchar_t *driver_name, uintptr_t *address, size_t *size)
+	bool driver::get_kernel_driver(uintptr_t buffer_address, uintptr_t *address, size_t *size)
 	{
-		if (!driver_name || !address || !size)
+		if (!buffer_address || !address || !size)
 			return false;
 
 		KERNEL_REQUEST request;
 		request.check_code = 0x696969;
 		request.instruction_id = KERNEL_INSTRUCTION::INST_GET_DRV_INFO;
 		request.source_proc_id = m_current_pid;
-		request.buffer = (UINT_PTR)driver_name;
+		request.buffer = (UINT_PTR)buffer_address;
 
 		call_hook(&request);
 

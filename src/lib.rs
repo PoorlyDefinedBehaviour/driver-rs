@@ -7,50 +7,38 @@ mod ffi {
 
         type Driver;
 
-        type c_uint32_t;
-        type c_wchar_t;
-        type c_uintptr_t;
-        type c_size_t;
-
         fn driver_init() -> bool;
 
-        unsafe fn get_module_base(proc_id: *mut c_uint32_t, mod_name: *const c_wchar_t) -> usize;
+        unsafe fn get_module_base(proc_id: u32, mod_name: &CxxString) -> usize;
 
         unsafe fn read_process_memory(
-            target_proc_id: *mut c_uint32_t,
-            read_address: *mut c_uintptr_t,
-            buffer_address: *mut c_uintptr_t,
-            size: *mut c_size_t,
+            target_proc_id: u32,
+            read_address: u64,
+            buffer_address: u64,
+            size: u64,
         ) -> bool;
 
         unsafe fn write_process_memory(
-            target_proc_id: *mut c_uint32_t,
-            write_address: *mut c_uintptr_t,
-            buffer_address: *mut c_uintptr_t,
-            size: *mut c_size_t,
+            target_proc_id: u32,
+            write_address: u64,
+            buffer_address: u64,
+            size: u64,
         ) -> bool;
 
-        unsafe fn virtual_query(
-            proc_id: *mut c_uint32_t,
-            address: *mut c_uintptr_t,
-            buffer_address: *mut c_uintptr_t,
-            size: *mut c_size_t,
-        ) -> bool;
+        unsafe fn virtual_query(proc_id: u32, address: u64, buffer_address: u64, size: u64)
+            -> bool;
 
         unsafe fn get_mapped_file_name(
-            proc_id: *mut c_uint32_t,
-            address: *mut c_uintptr_t,
-            buffer: *const c_wchar_t,
-            size: *mut c_size_t,
+            proc_id: u32,
+            address: u64,
+            buffer_address: u64,
+            size: u64,
         ) -> bool;
 
         fn test_communicate() -> bool;
 
-        unsafe fn read_kernel_memory(
-            read_address: *mut c_uintptr_t,
-            buffer_address: *mut c_uintptr_t,
-            size: *mut c_size_t,
-        ) -> bool;
+        unsafe fn read_kernel_memory(read_address: usize, buffer_address: usize, size: u64)
+            -> bool;
     }
 }
 
