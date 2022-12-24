@@ -10,13 +10,11 @@ bool driver_init()
     return NW::driver_init();
 }
 
-uint64_t get_module_base(uint32_t proc_id, const std::string &mod_name)
+bool get_module_base(uint32_t proc_id, const std::string &mod_name, uint64_t &buffer)
 {
-    uint64_t address = 0;
     auto wstring = std::wstring(mod_name.begin(), mod_name.end());
     const wchar_t *mod_name_wchar_t = wstring.c_str();
-    NW::g_driver->get_module_base(proc_id, mod_name_wchar_t, &address);
-    return address;
+    return NW::g_driver->get_module_base(proc_id, mod_name_wchar_t, buffer);
 }
 
 bool read_process_memory(uint32_t target_proc_id, uint64_t read_address, uint64_t buffer_address, uint64_t size)

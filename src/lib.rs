@@ -9,7 +9,7 @@ mod ffi {
 
         fn driver_init() -> bool;
 
-        unsafe fn get_module_base(proc_id: u32, mod_name: &CxxString) -> usize;
+        fn get_module_base(proc_id: u32, mod_name: &CxxString, buffer: &mut u64) -> bool;
 
         unsafe fn read_process_memory(
             target_proc_id: u32,

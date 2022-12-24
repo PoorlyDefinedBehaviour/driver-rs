@@ -38,7 +38,7 @@ namespace NW
 		driver() = default;
 		~driver() = default;
 
-		bool driver::get_module_base(uint32_t proc_id, const wchar_t *mod_name, uintptr_t *address);
+		bool driver::get_module_base(uint32_t proc_id, const wchar_t *mod_name, uint64_t &buffer);
 		bool driver::read_process_memory(uint32_t target_proc_id, uintptr_t read_address, uintptr_t buffer_address, size_t size);
 		bool driver::write_process_memory(uint32_t target_proc_id, uintptr_t write_address, uintptr_t buffer_address, size_t size);
 		bool driver::virtual_query(uint32_t proc_id, uintptr_t address, uintptr_t buffer_address, size_t size);

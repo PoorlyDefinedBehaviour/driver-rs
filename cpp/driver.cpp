@@ -29,9 +29,9 @@ namespace NW
 		return true;
 	}
 
-	bool driver::get_module_base(uint32_t proc_id, const wchar_t *mod_name, uintptr_t *address)
+	bool driver::get_module_base(uint32_t proc_id, const wchar_t *mod_name, uint64_t &buffer)
 	{
-		if (!proc_id || !mod_name || !address)
+		if (!proc_id || !mod_name)
 			return false;
 
 		KERNEL_REQUEST request;
@@ -43,7 +43,7 @@ namespace NW
 
 		call_hook(&request);
 
-		*address = reinterpret_cast<uintptr_t>(request.response);
+		buffer = reinterpret_cast<uint64_t>(request.response);
 
 		return static_cast<bool>(request.succeed);
 	}
