@@ -10,7 +10,7 @@ namespace NW
 
 		HMODULE mod = LoadLibraryA("win32u.dll");
 
-		if (system("kdu -scv 3 -drvn nw-object -drvr nw -map ./newway-driver.sys 2>&1") != 0)
+		if (system("kdu -scv 3 -drvn nw-object -drvr nw -map ./newway-driver.sys") != 0)
 		{
 			std::cout << "unable map driver" << std::endl;
 			return false;
